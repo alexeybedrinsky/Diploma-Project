@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Список столов</h2>
+  <ul>
+    {% for table in tables %}
+      <li>Стол {{ table.number }} - {{ table.capacity }} мест</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

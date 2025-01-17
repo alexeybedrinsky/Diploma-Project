@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2>Профиль пользователя</h2>
+
+    <div class="card">
+      <div class="card-header">
+        Информация о пользователе
+      </div>
+      <div class="card-body">
+        <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+        <p><strong>Статус администратора:</strong> {% if profile.is_admin %}Да{% else %}Нет{% endif %}</p>
+
+        <a href="{% url 'edit_profile' %}" class="btn btn-primary">Редактировать профиль</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

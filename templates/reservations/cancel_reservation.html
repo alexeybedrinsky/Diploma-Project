@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Отмена, столь желанного, бронирования</h2>
+  <p>Дорогой клиент, Вы уверены, что хотите отменить следующее бронирование?</p>
+  <p>Дата: {{ reservation.date }}</p>
+  <p>Время: {{ reservation.time }}</p>
+  <p>Количество гостей: {{ reservation.guests }}</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Подтвердите, пожалуйста, отмену</button>
+  </form>
+  <a href="{% url 'reservation_detail' reservation.pk %}">Вернуться к деталям бронирования</a>
+{% endblock %}

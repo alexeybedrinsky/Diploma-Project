@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Детали бронирования</h2>
+    
+    {% if messages %}
+        <div class="messages mb-4">
+            {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="card">
+        <div class="card-body">
+            <p><strong>Дата:</strong> {{ reservation.date }}</p>
+            <p><strong>Время:</strong> {{ reservation.time }}</p>
+            <p><strong>Количество гостей:</strong> {{ reservation.guests }}</p>
+            <p><strong>Статус:</strong> {{ reservation.get_status_display }}</p>
+            {% if reservation.table %}
+                <p><strong>Назначенный стол:</strong> {{ reservation.table.number }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mt-4">
+        {% if reservation.status == 'pending' %}
+            <a href="{% url 'confirm_reservation' reservation.pk %}" class="btn btn-primary">Подтвердить бронирование</a>
+        {% endif %}
+        {% if reservation.status != 'cancelled' %}
+            <a href="{% url 'cancel_reservation' reservation.pk %}" class="btn btn-danger ml-2">Отменить бронирование</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Подтверждение бронирования</h2>
+  <p>Дата: {{ reservation.date }}</p>
+  <p>Время: {{ reservation.time }}</p>
+  <p>Количество гостей: {{ reservation.guests }}</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <label for="table">Выберите стол:</label>
+    <select name="table" id="table">
+      {% for table in available_tables %}
+        <option value="{{ table.id }}">Стол {{ table.number }} (вместимость: {{ table.capacity }})</option>
+      {% empty %}
+        <option value="">Нет доступных столов</option>
+      {% endfor %}
+    </select>
+    <button type="submit">Подтвердить бронирование</button>
+  </form>
+{% endblock %}

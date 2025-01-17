@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Создать бронирование в ТРИ КОТА</h2>
+    <form method="post" id="reservationForm">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_date" class="form-label">Дата</label>
+            {{ form.date }}
+        </div>
+        <div class="mb-3">
+            <label for="id_time" class="form-label">Время</label>
+            {{ form.time }}
+        </div>
+        <div class="mb-3">
+            <label for="id_guests" class="form-label">Количество гостей</label>
+            {{ form.guests }}
+        </div>
+        <div class="mb-3">
+            <label for="id_phone" class="form-label">Телефон</label>
+            {{ form.phone }}
+        </div>
+        <div class="mb-3">
+            <label for="id_email" class="form-label">Email</label>
+            {{ form.email }}
+        </div>
+        <h3>Доступность столиков</h3>
+        <div id="availabilityMessage" class="mb-3"></div>
+        <button type="submit" id="submitButton" class="btn btn-primary" disabled>Забронировать</button>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('reservationForm');
+    const dateInput = form.querySelector('input[name="date"]');
+    const timeInput = form.querySelector('input[name="time"]');
+    const guestsInput = form.querySelector('input[name="guests"]');
+    const availabilityMessage = document.getElementById('availabilityMessage');
+    const submitButton = document.getElementById('submitButton');
+
+    function checkAvailability() {
+        const date = dateInput.value;
+        const time = timeInput.value;
+        const guests = guestsInput.value;
+
+        if (date && time && guests) {
+            fetch(`/reservations/check-availability/?date=${date}&time=${time}&guests=${guests}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.available) {
+                        availabilityMessage.textContent = 'Столики доступны!';
+                        availabilityMessage.style.color = 'green';
+                        submitButton.disabled = false;
+                    } else {
+                        availabilityMessage.textContent = 'К сожалению, коты заняли все столики на это время.';
+                        availabilityMessage.style.color = 'red';
+                        submitButton.disabled = true;
+                    }
+                })
+                .catch(() => {
+                    availabilityMessage.textContent = 'Произошла ошибка при проверке доступности. Попробуйте позже.';
+                    availabilityMessage.style.color = 'red';
+                    submitButton.disabled = true;
+                });
+        }
+    }
+
+    dateInput.addEventListener('change', checkAvailability);
+    timeInput.addEventListener('change', checkAvailability);
+    guestsInput.addEventListener('change', checkAvailability);
+});
+</script>
+{% endblock %}

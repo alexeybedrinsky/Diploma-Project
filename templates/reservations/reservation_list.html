@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Список бронирований</h2>
+  <ul>
+    {% for reservation in reservations %}
+      <li>
+        <a href="{% url 'reservation_detail' reservation.pk %}">
+          {{ reservation.date }} в {{ reservation.time }} для {{ reservation.guests }} гостей
+        </a>
+      </li>
+    {% empty %}
+      <li>Нет активных бронирований.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,73 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Система бронирования столиков{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'images/rest_trikota.png' %}">
+    <style>
+        .welcome-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .welcome-section img {
+            margin-right: 10px;
+            width: 50px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'home' %}">Система бронирования</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Главная
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{% url 'about' %}">О ресторане</a></li>
+                            <li><a class="dropdown-item" href="{% url 'create_reservation' %}">Забронировать столик</a></li>
+                            {% if user.is_authenticated %}
+                                <li><a class="dropdown-item" href="{% url 'user_reservations' %}">Мои бронирования</a></li>
+                                {% if user.is_staff %}
+                                    <li><a class="dropdown-item" href="{% url 'admin_dashboard' %}">Панель управления</a></li>
+                                {% endif %}
+                            {% else %}
+                                <li><a class="dropdown-item" href="{% url 'login' %}">Вход для персонала</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main class="container mt-3">
+        {% if messages %}
+            <div class="alert alert-info" role="alert">
+                {% for message in messages %}
+                    <p{% if message.tags %} class="alert-{{ message.tags }}"{% endif %}>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="welcome-section">
+            <img src="{% static 'images/rest_trikota.png' %}" alt="Три кота">
+            <h1>Добро пожаловать в ресторан "Три кота"</h1>
+        </div>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer class="bg-light text-center py-3">
+        <p>&copy; 2025 Система бронирования столиков в ТРИ КОТА</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
