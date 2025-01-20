@@ -36,7 +36,8 @@ pytest 8.2.1
 3. Установите зависимости: `pip install -r requirements.txt`
 4. Настройте базу данных PostgreSQL
 5. Выполните миграции: `python manage.py migrate`
-6. Запустите сервер разработки: `python manage.py runserver`
+6. Примените фикстуры: python manage.py loaddata fixtures/tables_fixture.json
+7. Запустите сервер разработки: `python manage.py runserver`
 
 Запуск
 Запустите сервер разработки: python manage.py runserver
