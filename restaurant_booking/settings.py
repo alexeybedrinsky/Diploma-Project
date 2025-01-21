@@ -20,11 +20,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "widget_tweaks",
+    "accounts",
     "reservations",
     "tables",
     "users",
     "booking",
-    "accounts",
 ]
 
 MIDDLEWARE = [
@@ -91,6 +91,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+LOGIN_URL = '/accounts/login/'
 
 STATIC_URL = "static/"
 

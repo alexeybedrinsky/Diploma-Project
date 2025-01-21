@@ -45,8 +45,10 @@
                                     {% if user.is_staff %}
                                         <li><a class="dropdown-item" href="{% url 'admin_dashboard' %}">Панель управления</a></li>
                                     {% endif %}
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Выйти</a></li>
                                 {% else %}
-                                    <li><a class="dropdown-item" href="{% url 'login' %}">Вход для персонала</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'login' %}">Войти</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'register' %}">Регистрация</a></li>
                                 {% endif %}
                             </ul>
                         </li>
@@ -68,6 +70,11 @@
             <img src="{% static 'images/rest_trikota.png' %}" alt="Три кота">
             <h1>Добро пожаловать в ресторан "Три кота"</h1>
         </div>
+        {% if not user.is_authenticated %}
+            <div class="text-center mt-4">
+                <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Регистрация новых пользователей</a>
+            </div>
+        {% endif %}
         {% block content %}{% endblock %}
     </main>
     <footer class="bg-light text-center py-3 mt-5">

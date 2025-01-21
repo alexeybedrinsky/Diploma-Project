@@ -7,7 +7,6 @@ urlpatterns = [
     path("reservations/", include("reservations.urls")),
     path("tables/", include("tables.urls")),
     path("users/", include("users.urls")),
-    path('accounts/', include('django.contrib.auth.urls')),
     path("accounts/", include("accounts.urls")),
     path("", reservation_views.home, name="home"),
 ]
